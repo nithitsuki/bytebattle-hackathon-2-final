@@ -11,7 +11,7 @@
           <h1>Goals:</h1>
           <div id="goal"><input type="text"></input></div>
           <h1>Price of Your goals: </h1>
-          <div id="goalprice"><input type="number" id="myNumberInput" name="quantity"></Input></div>
+          <div><input id="goalprice" type="number" id="myNumberInput" name="quantity"></Input></div>
   </div>
       </div>
       <div id="tabel">
@@ -41,12 +41,13 @@
    <td><span id="time"></span></td>
 </tr>
     </table>
-
+      </div>
       <button onclick="calculateSavings()"> find out your savings</button>
 <p id="result"></p>
 <button onclick="calculateTime()"> time left to acheive goal</button>
 <p id="time"></p>
     <script>
+
       function calculateSavings() {
         let spent = parseFloat(document.getElementById("spent").value) || 0;
         let earned = parseFloat(document.getElementById("earned").value) || 0;
@@ -54,12 +55,10 @@
         document.getElementById("result").textContent = net;
       }
   
-      
-        function calculateTime() {
-          let spent = parseFloat(document.getElementById("spent").value) || 0;
+      function calculateTime() {
+        let spent = parseFloat(document.getElementById("spent").value) || 0;
         let earned = parseFloat(document.getElementById("earned").value) || 0;
         let net = earned - spent;
-        let goal = (document.getElementById("goal").value) ||0;
         let goalprice = parseFloat(document.getElementById("goalprice").value) ||0;
         let time = goalprice / net;
         document.getElementById("time").textContent = time;
