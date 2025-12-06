@@ -1,116 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Financial Goal Planner</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 20px;
-    }
-
-    .container {
-      background: antiquewhite;
-      padding: 20px;
-      max-width: 500px;
-      margin: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    label {
-      display: block;
-      margin: 10px 0;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 10px;
-      width: 100%;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    p {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Financial Goal Planner</h1>
-
-    <label>Goal: <input type="text" id="goal" /></label>
-    <label>Price of Goal: <input type="number" id="goalPrice" /></label>
-
-    <label>Money Spent: <input type="number" id="moneySpent" /></label>
-    <label>Reason for Spending: <input type="text" id="reasonSpent" /></label>
-    <label>Money Earned: <input type="number" id="moneyEarned" /></label>
-
-    <button onclick="calculateSavings()">Calculate Savings</button>
-    <p id="savingsResult"></p>
-
-    <label>Monthly Savings: <input type="number" id="monthlySavings" /></label>
-    <button onclick="calculateTime()">Calculate Time Needed</button>
-    <p id="timeResult"></p>
-
-    <p><a href="#kid">KID Version</a></p>
-  </div>
-
-  <!-- Kid Section -->
-  <div class="container" id="kid" style="margin-top:40px;">
-    <h1>KID-Friendly Planner</h1>
-    <p>This is a simpler version of the planner for kids to understand saving goals.</p>
-    <p><a href="#top">Back to Main Planner</a></p>
-  </div>
-
-  <script>
-    function calculateSavings() {
-      const spent = parseFloat(document.getElementById("moneySpent").value) || 0;
-      const earned = parseFloat(document.getElementById("moneyEarned").value) || 0;
-      const savings = earned - spent;
-
-      document.getElementById("savingsResult").textContent = `Money Saved or Earned: ₹${savings}`;
-    }
-
-    function calculateTime() {
-      const goalPrice = parseFloat(document.getElementById("goalPrice").value) || 0;
-      const monthlySavings = parseFloat(document.getElementById("monthlySavings").value) || 0;
-
-      if (monthlySavings <= 0) {
-        document.getElementById("timeResult").textContent = "Monthly savings must be greater than zero.";
-        return;
+<html>
+  <head>
+    <title>Money Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
       }
-
-      const monthsNeeded = Math.ceil(goalPrice / monthlySavings);
-      document.getElementById("timeResult").textContent = `Time Needed for Goal: ${monthsNeeded} month(s)`;
+      table {
+        margin: 20px auto;  
+        width: 70%;          
+        font-size: 18px;     
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 12px;
+        border: 1px solid black;
+        text-align: left;
+      }
+      input {
+        width: 95%;         
+        padding: 6px;
+        font-size: 16px;
+      }
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="text-align:center;">Money Tracker</h2>
+    <table>
+      <tr>
+        <th>Money Spent</th>
+        <td><input id="spent" type="number"></td>
+      </tr>
+      <tr>
+        <th>Reason for Money Spent</th>
+        <td><input type="text"></td>
+      </tr>
+      <tr>
+        <th>Money Earned</th>
+        <td><input id="earned" type="number"></td>
+      </tr>
+      <tr>
+        <th>Net Savings</th>
+        <td><span id="result"></span></td>
+      </tr>
+    </table>
+    <table>
+<tr>
+        <th>Goal</th>
+        <td><input type="text" id="goal"></td>    
+    </tr>
+   <tr>
+    <th> Price of Goal</th>
+    <td><input type="number" id="goalprice"></td>
+    </tr>
+    <tr>
+   <th>Time needed to achieve goal(Months)</th>
+   <td><span id="time"></span></td>
+</tr>
+    </table>
+<button onclick="calculateSavings()"> Saving money</button>
+<p id="result"></p>
+<button onclick="calculateTime()">Time left to acheve goal</button>
+<p id="time"></p>
+    <script>
+      function calculateSavings() {
+        let spent = parseFloat(document.getElementById("spent").value) || 0;
+        console.log("hello world")
+        let earned = parseFloat(document.getElementById("earned").value) || 0;
+        let net = earned - spent;
+        document.getElementById("result").textContent = net;
+      }
+       
+        function calculateTime() {
+        let earned = parseFloat(document.getElementById("earned").value) || 0;
+        let spent = parseFloat(document.getElementById("spent").value) || 0;
+        let goal = (document.getElementById("goal").value) ||0;
+        let goalprice = parseFloat(document.getElementById("goalprice").value) ||0;
+        let net = earned - spent
+        let time = goalprice / net;
+        console.log("goal"+goal)
+        console.log("goalprice"+goalprice)
+        console.log("result"+result)
+        console.log("time"+time)
+        document.getElementById("time").textContent = time;
+    
     }
-  </script>
-</body>
+    
+    </script>
+  </body>
 </html>

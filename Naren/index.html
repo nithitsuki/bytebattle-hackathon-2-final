@@ -53,10 +53,12 @@
         let net = earned - spent;
         document.getElementById("result").textContent = net;
       }
-       let spent = parseFloat(document.getElementById("spent").value) || 0;
+  
+      
+        function calculateTime() {
+          let spent = parseFloat(document.getElementById("spent").value) || 0;
         let earned = parseFloat(document.getElementById("earned").value) || 0;
         let net = earned - spent;
-        function calculateTime() {
         let goal = (document.getElementById("goal").value) ||0;
         let goalprice = parseFloat(document.getElementById("goalprice").value) ||0;
         let time = goalprice / net;
