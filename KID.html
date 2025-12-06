@@ -1,8 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Financial Goal Planner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
 
+    .container {
+      background: antiquewhite;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 
-    <body>
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    p {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<a href="KID.html">Kid</a>
+<body>
+  <div class="container">
+    <h1>Financial Goal Planner</h1>
+
+    <label>Goal: <input type="text" id="goal" /></label>
+    <label>Price of Goal: <input type="number" id="goalPrice" /></label>
+
+    <label>Money Spent: <input type="number" id="moneySpent" /></label>
+    <label>Reason for Spending: <input type="text" id="reasonSpent" /></label>
+    <label>Money Earned: <input type="number" id="moneyEarned" /></label>
+
+    <button onclick="calculateSavings()">Calculate Savings</button>
+    <p id="savingsResult"></p>
+
     
+    <button onclick="calculateTime()">Calculate Time Needed</button>
+    <p id="timeResult"></p>
+
+    <p><a href="#kid">KID Version</a></p>
+  </div>
+
+  <!-- Kid Section -->
+  <div class="container" id="kid" style="margin-top:40px;">
+    <h1>KID-Friendly Planner</h1>
+    <p>This is a simpler version of the planner for kids to understand saving goals.</p>
+    <p><a href="#top">Back to Main Planner</a></p>
+  </div>
+
+  <script>
+    var savings=0; 
+    function calculateSavings() {
+      const spent = parseFloat(document.getElementById("moneySpent").value) || 0;
+      const earned = parseFloat(document.getElementById("moneyEarned").value) || 0;
+      savings = earned - spent;
+    
+      document.getElementById("savingsResult").textContent = `Money Saved or Earned: ₹${savings}`;
+    }
+
+    function calculateTime() {
+      const goalPrice = parseFloat(document.getElementById("goalPrice").value) || 0;
+      
+      if (savingsResult <= 0) {
+        document.getElementById("timeResult").textContent = "Monthly savings must be greater than zero.";
+        return;
+      }
+      console.log("Savings:", savings);
+      const monthsNeeded = Math.ceil(goalPrice / savings);
+      console.log("goalPrice", goalPrice);
+      document.getElementById("timeResult").textContent = `Time Needed for Goal: ${monthsNeeded} month(s)`;
+    }
+  </script>
 </body>
-    </html>
+</html>
