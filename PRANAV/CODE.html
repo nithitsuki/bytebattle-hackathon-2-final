@@ -1,14 +1,669 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-box.income .stat-value {
+            color: #4caf50;
+        }
+
+        .stat-box.expense .stat-value {
+            color: #ff6b6b;
+        }
+
+        .stat-box.investment .stat-value {
+            color: #ff9800;
+        }
+
+        .list-container {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+
+        .transaction-item.income {
+            border-left-color: #4caf50;
+        }
+
+        .transaction-item.expense {
+            border-left-color: #ff6b6b;
+        }
+
+        .transaction-item.investment {
+            border-left-color: #ff9800;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-category {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .transaction-date {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .transaction-amount {
+            font-weight: bold;
+            font-size: 1.1em;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .delete-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+        }
+
+        .advice-container {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .advice-container h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .advice-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .advice-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .advice-box p {
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .chart-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+
+        .chart-box {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .pie-chart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .legend {
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+    </style>
+</head>
 <body>
- <button id="as if">TEST</button>
+    <div class="container">
+        <header>
+            <h1>💰 Personal Finance Manager</h1>
+            <p>Track your income, expenses, and investments</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Input Form -->
+            <div class="card">
+                <h2>Add Transaction</h2>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select id="type" required>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                            <option value="investment">Investment</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <input type="text" id="category" placeholder="e.g., Salary, Food, Stocks" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount ($)</label>
+                        <input type="number" id="amount" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description (optional)</label>
+                        <input type="text" id="description" placeholder="Add notes">
+                    </div>
+
+                    <button type="submit">Add Transaction</button>
+                </form>
+            </div>
+
+            <!-- Statistics -->
+            <div class="card">
+                <h2>Financial Summary</h2>
+                <div class="stats-grid">
+                    <div class="stat-box income">
+                        <div class="stat-label">Total Income</div>
+                        <div class="stat-value" id="totalIncome">$0</div>
+                    </div>
+                    <div class="stat-box expense">
+                        <div class="stat-label">Total Expenses</div>
+                        <div class="stat-value" id="totalExpense">$0</div>
+                    </div>
+                    <div class="stat-box investment">
+                        <div class="stat-label">Total Invested</div>
+                        <div class="stat-value" id="totalInvestment">$0</div>
+                    </div>
+                </div>
+                <div class="stats-grid" style="margin-top: 15px;">
+                    <div class="stat-box">
+                        <div class="stat-label">Net Balance</div>
+                        <div class="stat-value" id="netBalance" style="color: #667eea;">$0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Savings Rate</div>
+                        <div class="stat-value" id="savingsRate" style="color: #667eea;">0%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Investment %</div>
+                        <div class="stat-value" id="investmentPercent" style="color: #667eea;">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions List -->
+        <div class="card">
+            <h2>Recent Transactions</h2>
+            <div class="list-container" id="transactionsList">
+                <div class="empty-state">No transactions yet. Add one to get started!</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-container">
+            <div class="chart-box">
+                <h3>Expense Breakdown</h3>
+                <div class="pie-chart" id="expenseChart">📊</div>
+                <div class="legend" id="expenseLegend"></div>
+            </div>
+
+            <div class="chart-box">
+                <h3>Income vs Expenses</h3>
+                <div class="pie-chart" id="incomeExpenseChart">📈</div>
+                <div class="legend" id="incomeExpenseLegend"></div>
+            </div>
+        </div>
+
+        <!-- Financial Advice -->
+        <div class="advice-container">
+            <h2>💡 Financial Advice & Next Steps</h2>
+            <div id="adviceSection"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize date input to today
+        document.getElementById('date').valueAsDate = new Date();
+
+        // Load data from localStorage
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+        // Event listener for form submission
+        document.getElementById('transactionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            addTransaction();
+        });
+
+        function addTransaction() {
+            const type = document.getElementById('type').value;
+            const category = document.getElementById('category').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const date = document.getElementById('date').value;
+            const description = document.getElementById('description').value;
+
+            const transaction = {
+                id: Date.now(),
+                type,
+                category,
+                amount,
+                date,
+                description
+            };
+
+            transactions.push(transaction);
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            
+            // Reset form
+            document.getElementById('transactionForm').reset();
+            document.getElementById('date').valueAsDate = new Date();
+            
+            updateDisplay();
+        }
+
+        function deleteTransaction(id) {
+            transactions = transactions.filter(t => t.id !== id);
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            updateStatistics();
+            updateTransactionsList();
+            updateCharts();
+            generateAdvice();
+        }
+
+        function updateStatistics() {
+            const income = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+            const expenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+            const investments = transactions.filter(t => t.type === 'investment').reduce((sum, t) => sum + t.amount, 0);
+
+            const netBalance = income - expenses - investments;
+            const savingsRate = income > 0 ? ((income - expenses) / income * 100).toFixed(1) : 0;
+            const investmentPercent = income > 0 ? ((investments / income) * 100).toFixed(1) : 0;
+
+            document.getElementById('totalIncome').textContent = '$' + income.toFixed(2);
+            document.getElementById('totalExpense').textContent = '$' + expenses.toFixed(2);
+            document.getElementById('totalInvestment').textContent = '$' + investments.toFixed(2);
+            document.getElementById('netBalance').textContent = '$' + netBalance.toFixed(2);
+            document.getElementById('savingsRate').textContent = savingsRate + '%';
+            document.getElementById('investmentPercent').textContent = investmentPercent + '%';
+
+            if (netBalance < 0) {
+                document.getElementById('netBalance').style.color = '#ff6b6b';
+            } else {
+                document.getElementById('netBalance').style.color = '#4caf50';
+            }
+        }
+
+        function updateTransactionsList() {
+            const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const container = document.getElementById('transactionsList');
+
+            if (sorted.length === 0) {
+                container.innerHTML = '<div class="empty-state">No transactions yet. Add one to get started!</div>';
+                return;
+            }
+
+            container.innerHTML = sorted.map(t => `
+                <div class="transaction-item ${t.type}">
+                    <div class="transaction-info">
+                        <div class="transaction-category">${t.category}</div>
+                        <div class="transaction-date">${new Date(t.date).toLocaleDateString()}</div>
+                    </div>
+                    <div class="transaction-amount">${t.type === 'income' ? '+' : '-'}$${t.amount.toFixed(2)}</div>
+                    <button class="delete-btn" onclick="deleteTransaction(${t.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function updateCharts() {
+            // Expense breakdown
+            const expenses = transactions.filter(t => t.type === 'expense');
+            const expenseByCategory = {};
+            expenses.forEach(e => {
+                expenseByCategory[e.category] = (expenseByCategory[e.category] || 0) + e.amount;
+            });
+
+            const categories = Object.keys(expenseByCategory);
+            const colors = ['#667eea', '#764ba2', '#ff6b6b', '#ff9800', '#4caf50', '#00bcd4'];
+
+            if (categories.length > 0) {
+                const expenseLegend = categories.map((cat, i) => `
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: ${colors[i % colors.length]}"></div>
+                        <span>${cat}: $${expenseByCategory[cat].toFixed(2)}</span>
+                    </div>
+                `).join('');
+                document.getElementById('expenseLegend').innerHTML = expenseLegend;
+                document.getElementById('expenseChart').textContent = '📊';
+            }
+
+            // Income vs Expenses
+            const income = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+            const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+
+            let legend = '';
+            if (income > 0) {
+                legend += `<div class="legend-item"><div class="legend-color" style="background: #4caf50"></div><span>Income: $${income.toFixed(2)}</span></div>`;
+            }
+            if (totalExpenses > 0) {
+                legend += `<div class="legend-item"><div class="legend-color" style="background: #ff6b6b"></div><span>Expenses: $${totalExpenses.toFixed(2)}</span></div>`;
+            }
+            document.getElementById('incomeExpenseLegend').innerHTML = legend;
+            document.getElementById('incomeExpenseChart').textContent = '📈';
+        }
+
+        function generateAdvice() {
+            const income = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+            const expenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+            const investments = transactions.filter(t => t.type === 'investment').reduce((sum, t) => sum + t.amount, 0);
+
+            let advice = '';
+
+            if (income === 0) {
+                advice += `
+                    <div class="advice-box">
+                        <h3>🎯 Get Started</h3>
+                        <p>Welcome! Start by logging your income sources. This will help us give you personalized financial advice.</p>
+                    </div>
+                `;
+            } else {
+                const savingsRate = ((income - expenses) / income * 100);
+                const investmentRate = (investments / income * 100);
+
+                // Savings Rate Advice
+                if (savingsRate < 10) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>⚠️ Low Savings Rate (${savingsRate.toFixed(1)}%)</h3>
+                            <p>Your savings rate is below recommended levels. Try to increase it to at least 20% of your income. Cut unnecessary expenses and review your spending habits.</p>
+                        </div>
+                    `;
+                } else if (savingsRate < 20) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>💭 Room for Improvement (${savingsRate.toFixed(1)}%)</h3>
+                            <p>Your savings rate is decent but can be improved. Aim for 20-30% of your income. Look for recurring expenses you can eliminate.</p>
+                        </div>
+                    `;
+                } else if (savingsRate < 40) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>✅ Good Savings Rate (${savingsRate.toFixed(1)}%)</h3>
+                            <p>Excellent! You're saving a healthy portion of your income. Keep it up and consider increasing investments.</p>
+                        </div>
+                    `;
+                } else {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>🌟 Excellent Savings Rate (${savingsRate.toFixed(1)}%)</h3>
+                            <p>Outstanding! You have exceptional saving habits. Focus on growing your investments and wealth.</p>
+                        </div>
+                    `;
+                }
+
+                // Investment Advice
+                if (investmentRate === 0) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>📈 Start Investing</h3>
+                            <p>You haven't logged any investments yet. Consider investing 10-20% of your savings in stocks, mutual funds, or other assets for long-term growth.</p>
+                        </div>
+                    `;
+                } else if (investmentRate < 10) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>📊 Increase Investments (${investmentRate.toFixed(1)}%)</h3>
+                            <p>Your investment rate is low. Consider increasing it to 15-25% of your income to accelerate wealth building.</p>
+                        </div>
+                    `;
+                } else {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>💎 Smart Investor (${investmentRate.toFixed(1)}%)</h3>
+                            <p>Great job investing! Keep diversifying your portfolio and review your investments quarterly.</p>
+                        </div>
+                    `;
+                }
+
+                // Expense Breakdown Advice
+                const expenseRatio = (expenses / income * 100);
+                if (expenseRatio > 80) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>💸 High Expense Ratio (${expenseRatio.toFixed(1)}%)</h3>
+                            <p>Your expenses are very high relative to income. Audit your spending and cut non-essential items.</p>
+                        </div>
+                    `;
+                }
+
+                // Net Balance Advice
+                const netBalance = income - expenses - investments;
+                if (netBalance < 0) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>🚨 Negative Balance</h3>
+                            <p>You're spending more than you earn! This is unsustainable. Reduce expenses immediately or increase income.</p>
+                        </div>
+                    `;
+                } else if (netBalance > 0) {
+                    advice += `
+                        <div class="advice-box">
+                            <h3>✨ Next Steps</h3>
+                            <p>You have a surplus of $${netBalance.toFixed(2)}! Consider: 1) Building an emergency fund (3-6 months expenses), 2) Paying down debt, 3) Increasing investments, or 4) Saving for long-term goals.</p>
+                        </div>
+                    `;
+                }
+            }
+
+            document.getElementById('adviceSection').innerHTML = advice;
+        }
+
+        // Initial display
+        updateDisplay();
+    </script>
 </body>
-  <script> 
-  var myfirstbutton = document.getElementById("as if")
-  myfirstbutton.addEventListener("click",myfunction)
-  function myfunction (){
-    alert("YO SUP CHAT")
-    myfirstbutton.style.backgroundColor="red"
-  }
-  </script>
 </html>
