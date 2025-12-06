@@ -57,12 +57,12 @@
       
         function calculateTime() {
           let spent = parseFloat(document.getElementById("spent").value) || 0;
-        let earned = parseFloat(document.getElementById("earned").value) || 0;
-        let net = earned - spent;
-        let goal = (document.getElementById("goal").value) ||0;
-        let goalprice = parseFloat(document.getElementById("goalprice").value) ||0;
-        let time = goalprice / net;
-        document.getElementById("time").textContent = time;
+          let earned = parseFloat(document.getElementById("earned").value) || 0;
+          let net = earned - spent;
+          let goal = (document.getElementById("goal").value) ||0;
+          let goalprice = parseFloat(document.getElementById("goalprice").value) ||0;
+          let time = goalprice / net;
+          document.getElementById("time").textContent = time;
       }
     
     </script>
