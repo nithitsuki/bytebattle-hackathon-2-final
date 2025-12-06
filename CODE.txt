@@ -1,0 +1,64 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include "DHT.h"
+
+// DHT Sensor
+#define DHTPIN 17
+#define DHTTYPE DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+// Pins
+int mqPin = 35;
+int soilPin = 34;
+#define RELAY_PIN 26
+
+// LCD
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// Variables
+int thresholdValue = 1500;
+bool pumpState = false;
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, LOW);
+
+  lcd.init();
+  lcd.backlight();
+  lcd.print("AgriSense 2.0");
+
+  delay(1000);
+  lcd.clear();
+}
+
+void loop() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  int air = analogRead(mqPin);
+  int soil = analogRead(soilPin);
+
+  // Convert air quality to 0-500 scale
+  int air_quality_500 = map(air, 0, 4095, 0, 500);
+
+  // -------- Pump Logic --------
+  bool newPumpState = (soil < thresholdValue);
+  digitalWrite(RELAY_PIN, newPumpState ? HIGH : LOW);
+
+  // -------- LCD Display --------
+  lcd.setCursor(0, 0);
+  lcd.print("T:");
+  lcd.print(t);
+  lcd.print(" H:");
+  lcd.print(h);
+
+  lcd.setCursor(0, 1);
+  lcd.print("S:");
+  lcd.print(soil);
+  lcd.print(" AQ:");
+  lcd.print(air_quality_500);
+
+  delay(1000);
+}

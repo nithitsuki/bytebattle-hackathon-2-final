@@ -1,0 +1,125 @@
+#include <WiFi.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include "DHT.h"
+
+#define BLYNK_TEMPLATE_ID "TMPL3EnRGM2ZY"
+#define BLYNK_TEMPLATE_NAME "AgriSense 20"
+#define BLYNK_AUTH_TOKEN  "5W4W1p1wTJFsLAm2HyGJr9xooTug91Lr"
+
+#include <BlynkSimpleEsp32.h>
+
+// DHT Sensor
+#define DHTPIN 17
+#define DHTTYPE DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+// Pins
+int mqPin = 35;
+int soilPin = 34;
+#define RELAY_PIN 26
+
+// LCD
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// WiFi
+char auth[] = BLYNK_AUTH_TOKEN;
+char ssid[] = "OM";
+char pass[] = "catchmefirst";
+
+// Variables
+int thresholdValue = 1500;
+int manualPumpState = 0;
+int mode = 0;  
+bool pumpState = false; // track pump status to avoid repeated notifications
+
+// ----------- Blynk Input Controls ------------
+BLYNK_WRITE(V4) {  
+  thresholdValue = param.asInt();
+}
+
+BLYNK_WRITE(V5) {  
+  mode = param.asInt();
+}
+
+BLYNK_WRITE(V6) {  
+  manualPumpState = param.asInt();
+}
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, LOW);
+
+  lcd.init();
+  lcd.backlight();
+  lcd.print("AgriSence 2.0");
+
+  Blynk.begin(auth, ssid, pass);
+
+  lcd.setCursor(0, 1);
+  lcd.print("Connecting...");
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(300);
+  }
+
+  lcd.clear();
+  lcd.print("WiFi Connected");
+  delay(1000);
+  lcd.clear();
+}
+
+void loop() {
+  Blynk.run();
+
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  int air = analogRead(mqPin);
+  int soil = analogRead(soilPin);
+
+  // Convert air quality to 0-500 scale
+  int air_quality_500 = map(air, 0, 4095, 0, 500);
+
+  bool newPumpState;
+
+  // -------- Pump Logic --------
+  if (mode == 0) { 
+    newPumpState = (soil < thresholdValue);
+  } else {
+    newPumpState = manualPumpState;
+  }
+
+  digitalWrite(RELAY_PIN, newPumpState ? HIGH : LOW);
+
+  // -------- Pump Notification --------
+  if (newPumpState && !pumpState) {
+    Blynk.logEvent("pump_on", "🚰 Pump Activated!");
+  }
+
+  pumpState = newPumpState;
+
+  // -------- Send Data to Blynk --------
+  Blynk.virtualWrite(V0, t);
+  Blynk.virtualWrite(V1, h);
+  Blynk.virtualWrite(V2, air_quality_500);
+  Blynk.virtualWrite(V3, soil);
+
+  // -------- LCD Display --------
+  lcd.setCursor(0, 0);
+  lcd.print("T:");
+  lcd.print(t);
+  lcd.print(" H:");
+  lcd.print(h);
+
+  lcd.setCursor(0, 1);
+  lcd.print(mode == 0 ? "A " : "M ");
+  lcd.print("S:");
+  lcd.print(soil);
+  lcd.print(" AQ:");
+  lcd.print(air_quality_500);
+
+  delay(1000);
+}
