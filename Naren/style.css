@@ -7,12 +7,18 @@ html,body{
     display:flex;
     justify-content: center;
     align-items: center;
+    font-size: 30px;
+}
+#goalprice{
+    
 }
 #goal{
 margin-right: auto;
+font-size: 30px;
 }
 #tabel{
-   display:flex;
-    justify-content: center;
-    align-items: center;
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 } 
