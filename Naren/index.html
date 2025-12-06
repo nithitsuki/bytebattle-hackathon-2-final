@@ -1,0 +1,68 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Adult Tracker</title>
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+      <div id="heading">
+          <h1>Goals:</h1>
+          <div id="goal"><input type="text"></input></div>
+          <h1>Price of Your goals: </h1>
+          <div id="goalprice"><input type="number" id="myNumberInput" name="quantity"></Input></div>
+  </div>
+      </div>
+      <div id="tabel">
+      <table>
+        <tr>
+          <th>Money Spent</th>
+          <td><input id="spent" type="number"></td>
+        </tr>
+        <tr>
+          <th>Reason for Money Spent</th>
+          <td><input type="text"></td>
+        </tr>
+        <tr>
+          <th>Money Earned</th>
+          <td><input id="earned" type="number"></td>
+        </tr>
+        <tr>
+          <th>Reason for Money Earned</th>
+          <td><input type="text"></td>
+        </tr>
+        <tr>
+          <th>Net Savings (Earned − Spent)</th>
+          <td><span id="result"></span></td>
+        </tr>
+       <tr>
+   <th>Time needed to achieve goal</th>
+   <td><span id="time"></span></td>
+</tr>
+    </table>
+
+      <button onclick="calculateSavings()"> find out your savings</button>
+<p id="result"></p>
+<button onclick="calculateTime()"> time left to acheive goal</button>
+<p id="time"></p>
+    <script>
+      function calculateSavings() {
+        let spent = parseFloat(document.getElementById("spent").value) || 0;
+        let earned = parseFloat(document.getElementById("earned").value) || 0;
+        let net = earned - spent;
+        document.getElementById("result").textContent = net;
+      }
+       let spent = parseFloat(document.getElementById("spent").value) || 0;
+        let earned = parseFloat(document.getElementById("earned").value) || 0;
+        let net = earned - spent;
+        function calculateTime() {
+        let goal = (document.getElementById("goal").value) ||0;
+        let goalprice = parseFloat(document.getElementById("goalprice").value) ||0;
+        let time = goalprice / net;
+        document.getElementById("time").textContent = time;
+      }
+    
+    </script>
+  </body>
+</html>
