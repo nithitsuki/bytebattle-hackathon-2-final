@@ -24,7 +24,7 @@ body {
 
       table {
         margin: 20px auto;  
-        width: 75%;   
+        width: 60%;   
         height: 42%;       
         font-size: 20px;     
         border-style: solid;
@@ -33,7 +33,7 @@ body {
        color: #b5e909;
       }
       th, td {
-        padding:5px;
+        padding: 5px;
         border-style: solid;
        border-radius: 10px;
         border-color: #f0f0f0;
@@ -49,6 +49,26 @@ body {
         padding: 0px 20px;
         font-size: 20px;
 
+      }
+
+      #goal{
+        height: 10px;
+      }
+
+      #goalprice{
+        height: 10px;
+      }
+      
+      #x{
+        height: 70px;
+      }
+
+       #y{
+        height: 70px;
+      }
+
+      #z{
+        height: 70px;
       }
 
       button:hover{
