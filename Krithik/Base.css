@@ -13,3 +13,10 @@ body{
     align-items: center;
     justify-content: center;
 }
+
+#parent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
