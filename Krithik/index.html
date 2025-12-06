@@ -5,16 +5,16 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Adult Tracker</title>
       <link rel="stylesheet" href="style.css">
+      <link rel="icon" href="icon.png">
   </head>
   <body>
       <div id="heading">
-          <h1>Goals:</h1>
+          <h1>Goals:  </h1>
           <div id="goal"><input type="text"></input></div>
           <h1>Price of Your goals: </h1>
           <div><input id="goalprice" type="number" id="myNumberInput" name="quantity"></Input></div>
   </div>
-      </div>
-      <div id="tabel">
+      
       <table>
         <tr>
           <th>Money Spent</th>
@@ -31,23 +31,29 @@
               <tr>
           <th>Reason for Money Earned</th>
           <td><input type="text"></td>
-          <td></td>
         </tr>
         <tr>
           <th>Net Savings (Earned − Spent)</th>
           <td><span id="result"></span></td>
-         <!-- <td><input readonly></td> -->
-        </tr>
+         </tr>
+         <tr>
+          <th>Money more needed</th>
+          <td><span id="remainder"></span></td>
+         </tr>
        <tr>
    <th>Time needed to achieve goal</th>
-   <td><input readonly></td>
+   <td><span id="time"></span></td>
 </tr>
     </table>
+      
+      <div id="btns">
+      <button onclick="calculateSavings()"> Calculate Savings</button>
+      <p id="result"></p>
+      <button onclick="calculateTime()">Time needed</button>
+      <p id="time"></p>
+      <button onclick="calculateRemainder()">Amount more required</button>
+      <p id="remainder"></p>
       </div>
-      <button onclick="calculateSavings()"> find out your savings</button>
-<p id="result"></p>
-<button onclick="calculateTime()"> time left to acheive goal</button>
-<p id="time"></p>
     <script>
 
       function calculateSavings() {
@@ -66,6 +72,15 @@
         document.getElementById("time").textContent = time;
       }
     
+      function calculateRemainder() {
+        let goalprice = parseFloat(document.getElementById("goalprice").value) ||0;
+        let spent = parseFloat(document.getElementById("spent").value) || 0;
+        let earned = parseFloat(document.getElementById("earned").value) || 0;
+        let net = earned - spent;
+        let remainder = goalprice - net;
+        document.getElementById("remainder").textContent = remainder;
+      }
+
     </script>
   </body>
 </html>

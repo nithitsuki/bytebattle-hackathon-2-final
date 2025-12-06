@@ -19,9 +19,13 @@ body {
         justify-content: center;
           }
 
+
+
+
       table {
         margin: 20px auto;  
-        width: 70%;          
+        width: 75%;   
+        height: 42%;       
         font-size: 20px;     
         border-style: solid;
         border-width: 10px;
@@ -29,7 +33,7 @@ body {
        color: #b5e909;
       }
       th, td {
-        padding: 12px;
+        padding:5px;
         border-style: solid;
        border-radius: 10px;
         border-color: #f0f0f0;
@@ -37,13 +41,14 @@ body {
       input {
         width: 95%;         
         padding: 6px;
-        font-size: 16px;
+        font-size: 20px;
       }
       button {
         display: block;
         margin: 20px auto;
-        padding: 10px 20px;
-        font-size: 16px;
+        padding: 0px 20px;
+        font-size: 20px;
+
       }
 
       button:hover{
