@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html> 
 <head>
-    <title>Kid Wealth Tracker</title>
+    <title>Money Calculator</title>
     <link rel="stylesheet" href="kid.css">
-    <link rel="icon" href="icon.png">
   </head>
   <body>
     <h2 style="text-align:center;">Money Tracker</h2>
     <table>
       <tr>
-        <th>Money Spent</th>
+        <th>Money Spent(Months)</th>
         <td><input id="spent" type="number"></td>
       </tr>
       <tr>
@@ -17,31 +16,31 @@
         <td><input type="text"></td>
       </tr>
       <tr>
-        <th>Money Earned</th>
+        <th>Money Earned(Months)</th>
         <td><input id="earned" type="number"></td>
       </tr>
       <tr>
-        <th>Net Savings</th>
+        <th>Net Savings(Months)</th>
         <td><span id="result"></span></td>
       </tr>
     </table>
     <table>
 <tr>
-        <th id="x">Goal</th>
+        <th>Goal</th>
         <td><input type="text" id="goal"></td>    
     </tr>
    <tr>
-    <th id="y">Cost of Goal</th>
+    <th>Cost of Goal</th>
     <td><input type="number" id="goalprice"></td>
     </tr>
     <tr>
-   <th id="z">Time needed to achieve goal(Months)</th>
+   <th>Time needed to achieve goal(Months)</th>
    <td><span id="time"></span></td>
 </tr>
     </table>
-<button onclick="calculateSavings()"> Money Saved</button>
+<button onclick="calculateSavings()"> Saving money</button>
 <p id="result"></p>
-<button onclick="calculateTime()">Time needed to achieve goal</button>
+<button onclick="calculateTime()">Time left to acheve goal</button>
 <p id="time"></p>
     <script>
       function calculateSavings() {
