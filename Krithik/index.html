@@ -53,6 +53,7 @@
       <p id="time"></p>
       <button onclick="calculateRemainder()">Amount more required</button>
       <p id="remainder"></p>
+      <button onclick="showall()">Calculate All</button>
       </div>
     <script>
 
@@ -81,6 +82,11 @@
         document.getElementById("remainder").textContent = remainder;
       }
 
+      function showall(){
+        calculateTime()
+        calculateSavings()
+        calculateRemainder()
+      }
     </script>
   </body>
 </html>

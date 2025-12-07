@@ -3,6 +3,7 @@
 <head>
     <title>Kid Wealth Tracker</title>
     <link rel="stylesheet" href="kid.css">
+     <link rel="icon" href="icon.png">
   </head>
   <body>
     <h2 style="text-align:center;">Money Tracker</h2>
@@ -42,6 +43,7 @@
 <p id="result"></p>
 <button onclick="calculateTime()">Time left to acheve goal</button>
 <p id="time"></p>
+<button onclick="showall()">Calculate All</button>
     <script>
       function calculateSavings() {
         let spent = parseFloat(document.getElementById("spent").value) || 0;
@@ -65,6 +67,11 @@
         document.getElementById("time").textContent = time;
     
     }
+
+      function showall(){
+        calculateTime()
+        calculateSavings()
+      }
     
     </script>
   </body>
