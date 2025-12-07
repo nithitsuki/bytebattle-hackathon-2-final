@@ -19,13 +19,9 @@ body {
         justify-content: center;
           }
 
-
-
-
       table {
         margin: 20px auto;  
-        width: 60%;   
-        height: 42%;       
+        width: 70%;          
         font-size: 20px;     
         border-style: solid;
         border-width: 10px;
@@ -33,7 +29,7 @@ body {
        color: #b5e909;
       }
       th, td {
-        padding: 5px;
+        padding: 12px;
         border-style: solid;
        border-radius: 10px;
         border-color: #f0f0f0;
@@ -41,34 +37,13 @@ body {
       input {
         width: 95%;         
         padding: 6px;
-        font-size: 20px;
+        font-size: 16px;
       }
       button {
         display: block;
         margin: 20px auto;
-        padding: 0px 20px;
-        font-size: 20px;
-
-      }
-
-      #goal{
-        height: 10px;
-      }
-
-      #goalprice{
-        height: 10px;
-      }
-      
-      #x{
-        height: 10px;
-      }
-
-       #y{
-        height: 10px;
-      }
-
-      #z{
-        height: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
       }
 
       button:hover{
